@@ -5,26 +5,43 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String firstName;
-	private String lasName;
+	private String lastName;
 	private String email;
 	private String password;
 
+	@ManyToMany
+	@JoinTable(name = "tb_user_role", 
+	joinColumns = @JoinColumn(name = "user_id"), 
+	inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
 	public User() {
 
 	}
 
-	public User(Long id, String firstName, String lasName, String email, String password) {
+	public User(Long id, String firstName, String lastName, String email, String password) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
-		this.lasName = lasName;
+		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 	}
@@ -45,12 +62,12 @@ public class User implements Serializable {
 		this.firstName = firstName;
 	}
 
-	public String getLasName() {
-		return lasName;
+	public String getlastName() {
+		return lastName;
 	}
 
-	public void setLasName(String lasName) {
-		this.lasName = lasName;
+	public void setlastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
